@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aplicación Cliente Mapper</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <style>
+        #map {
+            height: calc(100vh - 64px); /* Ajusta la altura del mapa para que ocupe toda la pantalla menos la barra de navegación */
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+    <header class="bg-gray-800 text-white p-4 flex justify-between items-center">
+        <h1 class="text-2xl font-bold">JMaps</h1>
+        <div class="flex items-center">
+            <button id="menu-button" class="md:hidden text-white focus:outline-none mr-4">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+                </svg>
+            </button>
+            <input type="text" placeholder="Buscar..." class="px-4 py-2 rounded bg-gray-700 text-white focus:outline-none mr-4 hidden md:block">
+            <button class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">Mi Cuenta</button>
+        </div>
+    </header>
+    <nav id="nav" class="hidden md:flex bg-gray-700 text-white flex-col md:flex-row">
+        <div class="container mx-auto flex justify-center flex-col md:flex-row">
+            <input type="text" placeholder="Buscar..." class="px-4 py-2 rounded bg-gray-700 text-white focus:outline-none md:hidden mb-4">
+            <a href="#list" class="px-4 py-2 hover:bg-gray-600">Lista de Lugares</a>
+            <a href="#favorites" class="px-4 py-2 hover:bg-gray-600">Lugares Favoritos</a>
+            <a href="#reviews" class="px-4 py-2 hover:bg-gray-600">Mis Reseñas</a>
+            <a href="#questions" class="px-4 py-2 hover:bg-gray-600">Mis Opiniónes</a>
+            <a href="#about" class="px-4 py-2 hover:bg-gray-600">Acerca</a>
+        </div>
+    </nav>
+    <main>
+        <section id="map" class="map-container">
+            <div id="map"></div>
+        </section>
+    </main>
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script>
+        // Inicializar el mapa
+        var map = L.map('map').setView([41.3850639, 2.1725869], 13);
+
+        // Añadir capa de tiles
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        // Añadir un marcador
+        var marker = L.marker([41.3850639, 2.1725869]).addTo(map)
+            .bindPopup('Sagrada Família')
+            .openPopup();
+
+        // Manejar el despliegue del menú en dispositivos móviles
+        document.getElementById('menu-button').addEventListener('click', function() {
+            var nav = document.getElementById('nav');
+            if (nav.classList.contains('hidden')) {
+                nav.classList.remove('hidden');
+            } else {
+                nav.classList.add('hidden');
+            }
+        });
+    </script>
+</body>
+</html>
